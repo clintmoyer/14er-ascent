@@ -8,8 +8,12 @@ class Player:
         self.is_jumping = False
         self.health = 100  # Health starts at 100
         self.stamina = 100  # Stamina starts at 100
+        self.alive = True  # Player starts alive
 
     def handle_input(self):
+        if not self.alive:
+            return  # Player can't move when dead
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.rect.x -= 5
@@ -22,6 +26,9 @@ class Player:
                 self.stamina -= 10  # Reduce stamina when jumping
 
     def apply_gravity(self):
+        if not self.alive:
+            return  # No gravity if the player is dead
+
         self.velocity_y += 0.5  # Simulate gravity
         self.rect.y += self.velocity_y
         if self.rect.y >= 500:  # Hit the ground
@@ -32,18 +39,22 @@ class Player:
             self.stamina = min(self.stamina + 1, 100)  # Regain stamina while on the ground
 
     def take_damage(self, amount):
+        if not self.alive:
+            return  # No damage if the player is already dead
+
         self.health -= amount
         if self.health <= 0:
             self.die()
 
     def die(self):
-        print("Game Over!")  # For now, just print a message
-        self.respawn()
+        self.alive = False
+        print("Game Over!")  # Temporary Game Over message
 
     def respawn(self):
         self.rect.x, self.rect.y = 100, 500  # Reset player position
         self.health = 100  # Reset health
         self.stamina = 100  # Reset stamina
+        self.alive = True  # Player is alive again
 
     def update(self):
         self.handle_input()
