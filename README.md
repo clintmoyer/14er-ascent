@@ -1,7 +1,9 @@
-# Colorado 14er Platformer
+![hiker](https://github.com/user-attachments/assets/ee7f3456-f152-4de1-99cd-e0e13749d591)
+
+# 14er Ascent: Colorado
 
 ## Overview
-Colorado 14er Platformer is a 2D platformer game written in Python3 using Pygame. The player takes on the challenge of climbing 58 named Colorado 14ers, each with increasing difficulty, and an additional 16 bonus levels representing unnamed summits above 14,000 feet. Navigate through enemies and obstacles as you summit the peaks and unlock new levels.
+14er Ascent is a 2D platformer game written in Python3 using Pygame. The player takes on the challenge of climbing 58 named Colorado 14ers, each with increasing difficulty, and an additional 16 bonus levels representing unnamed summits above 14,000 feet. Navigate through enemies and obstacles as you summit the peaks and unlock new levels.
 
 ## Features
 - 58 main levels, each representing a named 14er.
