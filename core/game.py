@@ -1,4 +1,5 @@
 import pygame
+import random
 from core.player import Player
 from core.settings import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 
@@ -24,6 +25,10 @@ def run_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+        # Simulate wind and sliding conditions
+        player.apply_wind(active=random.choice([True, False]))  # Random wind for now
+        player.apply_sliding(sliding=random.choice([True, False]))  # Random sliding conditions
 
         if not player.alive:
             player.respawn()
