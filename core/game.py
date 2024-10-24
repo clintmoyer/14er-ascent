@@ -10,13 +10,6 @@ def draw_stamina_bar(screen, player):
     pygame.draw.rect(screen, (0, 255, 0), (10, 40, player.stamina * 2, 20))  # Green stamina bar
     pygame.draw.rect(screen, (0, 0, 0), (10, 40, 200, 20), 2)  # Black border
 
-def show_game_over(screen):
-    font = pygame.font.SysFont(None, 55)
-    text = font.render('Game Over!', True, (255, 0, 0))
-    screen.blit(text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 30))
-    pygame.display.flip()
-    pygame.time.wait(2000)  # Pause for 2 seconds before respawning
-
 def run_game():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -33,7 +26,6 @@ def run_game():
                 running = False
 
         if not player.alive:
-            show_game_over(screen)
             player.respawn()
 
         # Update game objects

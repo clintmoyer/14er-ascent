@@ -2,11 +2,16 @@ import pygame
 
 class Player:
     def __init__(self):
-        self.rect = pygame.Rect(100, 500, 50, 50)  # Player hitbox
-        self.idle_color = (255, 0, 0)  # Idle color (red)
-        self.walking_colors = [(0, 255, 0), (0, 200, 0), (0, 150, 0)]  # Colors for walking animation
-        self.jumping_color = (0, 0, 255)  # Jumping color (blue)
-        self.current_color = self.idle_color  # Default to idle color
+        # Load the player animation images (these should be PNGs generated from your SVGs)
+        self.idle_image = pygame.image.load("assets/images/player/idle.png").convert_alpha()
+        self.walk_images = [
+            pygame.image.load("assets/images/player/walk1.png").convert_alpha(),
+            pygame.image.load("assets/images/player/walk2.png").convert_alpha()
+        ]
+        self.jump_image = pygame.image.load("assets/images/player/jump.png").convert_alpha()
+
+        self.current_image = self.idle_image  # Start with idle state
+        self.rect = self.current_image.get_rect(midbottom=(100, 500))  # Player rectangle
 
         self.velocity_y = 0
         self.is_jumping = False
@@ -15,8 +20,9 @@ class Player:
         self.stamina = 100
         self.alive = True
 
-        self.walk_frame = 0  # Frame index for walking animation
-        self.walk_frame_timer = 0  # Timer to control frame change rate
+        # Animation variables
+        self.walk_frame = 0  # To keep track of which walking frame to show
+        self.walk_frame_timer = 0  # Timer to control frame changes
 
     def handle_input(self):
         if not self.alive:
@@ -51,18 +57,18 @@ class Player:
             self.stamina = min(self.stamina + 1, 100)
 
     def update_animation(self):
-        """Update the player's color/animation based on movement state."""
+        """Update the player's image based on movement state (idle, walking, jumping)."""
         if self.is_jumping:
-            self.current_color = self.jumping_color  # Blue when jumping
+            self.current_image = self.jump_image  # Show jumping image
         elif self.is_walking:
-            # Cycle through walking colors for animation
+            # Cycle through walking images
             self.walk_frame_timer += 1
-            if self.walk_frame_timer >= 5:  # Adjust to control frame speed
-                self.walk_frame = (self.walk_frame + 1) % len(self.walking_colors)
+            if self.walk_frame_timer >= 10:  # Control speed of walking animation
+                self.walk_frame = (self.walk_frame + 1) % len(self.walk_images)
                 self.walk_frame_timer = 0
-            self.current_color = self.walking_colors[self.walk_frame]
+            self.current_image = self.walk_images[self.walk_frame]  # Show walking frame
         else:
-            self.current_color = self.idle_color  # Red when idle
+            self.current_image = self.idle_image  # Show idle image
 
     def take_damage(self, amount):
         if not self.alive:
@@ -87,5 +93,5 @@ class Player:
         self.update_animation()
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.current_color, self.rect)
+        screen.blit(self.current_image, self.rect)  # Draw the current animation frame
 
